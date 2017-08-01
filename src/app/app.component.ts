@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   currentIndex: number;
 
   constructor() {
-   this.setUserValues(new User());
+    this.setUserValues(new User());
   }
 
   ngOnInit() {
@@ -28,13 +28,13 @@ export class AppComponent implements OnInit {
     if (data.valid) {
       this.user = data.value;
       this.user.fullName = this.user.firstName + " " + this.user.lastName;
-      if (this.isUpdate) {       
+      if (this.isUpdate) {
         this.userArray[this.currentIndex] = this.user;
       } else {
         this.userArray.push(this.user);
       }
-       this.storeToSession(this.userArray);
-       this.setUserValues(new User());
+      this.storeToSession(this.userArray);
+      this.setUserValues(new User());
     } else {
       this.hasError = true;
     }
@@ -47,12 +47,12 @@ export class AppComponent implements OnInit {
 
   getFromSession() {
     this.userArray = eval(sessionStorage.getItem(('users')));
-    this.userArray = this.userArray !=null ? this.userArray : new Array();
+    this.userArray = this.userArray != null ? this.userArray : new Array();
   }
 
   removeAll() {
     sessionStorage.removeItem('users');
-     this.userArray = new Array();
+    this.userArray = new Array();
   }
 
   remove(userIndex: number) {
@@ -70,11 +70,11 @@ export class AppComponent implements OnInit {
     this.hasError = false;
     this.isUpdate = false;
   }
-clone(index : number){
-   this.isUpdate = false;
-this.setUserValues(this.userArray[index]);
-}
-  setUserValues(currentUser){
+  clone(index: number) {
+    this.isUpdate = false;
+    this.setUserValues(this.userArray[index]);
+  }
+  setUserValues(currentUser) {
     this.hasError = false;
     let fb2: FormBuilder = new FormBuilder();
     this.group = fb2.group({
