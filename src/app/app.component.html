@@ -1,3 +1,102 @@
-<h1>
-  {{title}}
-</h1>
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <a class="navbar-brand" href="#">Reactive Forms</a>
+</nav>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron" style="background-color: white;">
+    <button type="button" [hidden]=" !userArray || userArray.length == 0" class="btn btn-danger pull-right margin-r-20" (click)="removeAll()">Remove all users</button>
+</div>
+
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="card">
+                <div class="card-header">
+                    <h1> {{isUpdate ? 'Edit' : 'Add'}} details</h1>
+                </div>
+                <div class="card-block">
+                    <form novalidate [formGroup]='group' (ngSubmit)="storeData(group)">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" formControlName='firstName' placeholder="Enter first name">
+                            <!--firstName -  validation section STARTS-->
+                            <span *ngIf="hasError" class="error">
+                                <span *ngIf="group.get('firstName').hasError('required')">First name required</span>
+                            <span *ngIf="group.get('firstName').hasError('minlength')">First name length should contain atleast 3 letters</span>
+                            <span *ngIf="group.get('firstName').hasError('maxlength')">First name should contain less than 20 letters</span>
+                            </span>
+                            <!-- firstName - validation section ENDS-->
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" formControlName='lastName' placeholder="Enter last name">
+                            <!--lastName -  validation section STARTS-->
+                            <span *ngIf="hasError" class="error">
+                                <span *ngIf="group.get('lastName').hasError('required')">Last name required</span>
+                            <span *ngIf="group.get('lastName').hasError('minlength')">Last name length should contain atleast 3 letters</span>
+                            <span *ngIf="group.get('lastName').hasError('maxlength')">Last name should contain less than 20 letters</span>
+                            </span>
+                            <!-- lastName - validation section ENDS-->
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" formControlName='email' placeholder="Enter email">
+                            <!--email -  validation section STARTS-->
+                            <span *ngIf="hasError" class="error">
+                                <span *ngIf="group.get('email').hasError('required')">Email required</span>
+                            <span *ngIf="group.get('email').hasError('pattern')">Invalid email </span>
+                            </span>
+                            <!-- email - validation section ENDS-->
+                        </div>
+                        <div class="form-group">
+                            <label>Contact No</label>
+                            <input type="text" class="form-control" formControlName='contactNo' placeholder="Enter contact no">
+                            <!--contactNo -  validation section STARTS-->
+                            <span *ngIf="hasError" class="error">
+                                <span *ngIf="group.get('contactNo').hasError('required')">Contact No required</span>
+                            <span *ngIf="group.get('contactNo').hasError('minlength') || group.get('contactNo').hasError('maxlength')">Invalid Contact number</span>
+                            </span>
+                            <!-- contactNo - validation section ENDS-->
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success margin-l-20"> {{isUpdate ? 'Update' : 'Save'}}</button>
+                            <button type="reset" (click)="clearForm()" class="btn btn-warning margin-l-20">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div [ngClass]="{'list-scroll': userArray?.length > 4}" class="col-md-6 ">
+            <div class="card" *ngFor="let user of userArray;let i = index">
+                <div class="card-block">
+                    <span class="h5" [hidden]="isUpdate && currentIndex == i">
+                    <span class="pull-right" (click)="remove(i)"><i class="fa fa-times-circle  close-x" aria-hidden="true"></i></span>
+                    <span class="pull-right" (click)="edit(i)"><i class="fa fa-pencil margin-r-10 edit-x" aria-hidden="true"></i></span>
+                    </span>
+                    <span class="pull-right" (click)="clone(i)"><i class="fa fa-clone margin-r-10 clone-x" aria-hidden="true"></i></span>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4><i class="fa fa-user-circle-o fa-4x" aria-hidden="true"></i></h4>
+                        </div>
+                        <div class="col-md-8">
+                            <p> FullName : {{user.fullName}}</p>
+                            <p> Email : {{user.email}}</p>
+                            <p> Contact no : {{user.contactNo}}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /container -->
